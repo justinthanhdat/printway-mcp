@@ -2,6 +2,8 @@
 
 Printway v3 fulfillment integration for ChatGPT and other MCP clients. Covers all **23 published operations**: products/SKUs, shipping, order quotes/create/read/update/pay/cancel/delete, webhooks, transactions, and token administration. See [API research](docs/API-RESEARCH.md) and the sanitized [Postman snapshot](docs/postman-source.json).
 
+Deployed endpoint: **https://printway-mcp.onrender.com/mcp**. [Render dashboard](https://dashboard.render.com/web/srv-db6s21bl550s739t5ll0). The repository is public by the owner's explicit choice; secrets are excluded from Git.
+
 ## Run
 
 Node.js 22 or newer.
@@ -40,6 +42,7 @@ Default scopes: `printway:read` and `printway:write`. A client may request read 
 - `npm run check`: strict TypeScript checking.
 - `npm test`: coverage vs published collection, wire-level routing for all endpoints, GET body preservation, local input validation, upstream failure/timeout behavior, OAuth discovery/PKCE/resource binding/replay rejection/refresh rotation, MCP protocol/tool discovery, scope enforcement, redaction.
 - `npm run test:live`: four read-only upstream smoke calls using `.env`. No creation, payment, cancellation, deletion, token rotation, or webhook write is performed. Exit 2 means missing credentials, not successful verification.
+- `node scripts/remote-smoke.mjs`: HTTPS deployment, OAuth login/PKCE and MCP discovery verification with a placeholder upstream token. This makes no Printway API call and writes a local report under `.local/`.
 
 ## Operational limits
 
