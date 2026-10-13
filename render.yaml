@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: printway-mcp
+    runtime: node
+    plan: free
+    region: singapore
+    branch: main
+    buildCommand: npm ci --include=dev && npm run check && npm test && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MCP_LOGIN_PASSWORD
+        sync: false
+      - key: PRINTWAY_ENV
+        value: production
+      - key: ENABLE_AUTH_ADMIN
+        value: "false"

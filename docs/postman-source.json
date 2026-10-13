@@ -1,0 +1,1370 @@
+{
+  "info": {
+    "_postman_id": "cc4a0e60-2d7e-42a0-b4d0-d610889f6561",
+    "name": "Printway APIs documentation v3.0",
+    "description": "<html><head></head><body><p>The Printway.io API version 3.0 is an API service for viewing the products catalog, get order info and completing order(s) for our printing and fulfillment services.</p>\n<p>Requests are made using standard GET, POST, PUT and DELETE. All responses are JSON.</p>\n<p>Once you sign up for an account, you will be get an API access token.</p>\n\n<p><strong>Note: Request rate limit 50 req/ 3s</strong></p>\n<ul>\n<li><p>App test environment: <a href=\"https://uat.printway.work/\">https://uat.printway.work/</a></p>\n</li>\n<li><p>Test environment domain apis (<strong>pw_origin_api):</strong> <a href=\"https://uat.printway.work/api/v3\">https://uat.printway.work/api/v3</a></p>\n</li>\n<li><p>Production environment domain apis (<strong>pw_origin_api</strong>): <a href=\"https://apis.printway.io/v3\">https://apis.printway.io/v3</a></p>\n</li>\n<li><p>Authorization: You can use Bearer or header with key as <strong>pw_access_token</strong></p>\n</li>\n<li><p>The validity period of the access token is 730 days.</p>\n</li>\n<li><p>Access codes can be generated on the application interface: <strong>Store</strong> =&gt; <strong>Connect APIs</strong> =&gt; <strong>Generate Token/ Regenerate Token</strong></p>\n</li>\n</ul>\n</body></html>",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+    "toc": [],
+    "owner": "25190860",
+    "collectionId": "cc4a0e60-2d7e-42a0-b4d0-d610889f6561",
+    "publishedId": "2s9Y5WyPUk",
+    "public": true,
+    "customColor": {
+      "top-bar": "FFFFFF",
+      "right-sidebar": "303030",
+      "highlight": "FF6C37"
+    },
+    "publishDate": "2023-08-25T10:17:39.000Z"
+  },
+  "item": [
+    {
+      "name": "Authorization",
+      "item": [
+        {
+          "name": "Generate Access Token",
+          "id": "950cf04c-f7e6-4902-ba36-4597198f7463",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"your_email123@printway.io\", // Enter your email\r\n    \"password\": \"YourPassword@123\" // Enter your password\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/auth/token",
+            "description": "<p>You need to authenticate your account to be able to generate an access token.</p>\n<ul>\n<li><p>email: string (required)</p>\n</li>\n<li><p>password: string (required - at least 12 characters, one capital letter, one number, and one special character)</p>\n</li>\n</ul>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "auth",
+                "token"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "950cf04c-f7e6-4902-ba36-4597198f7463"
+        },
+        {
+          "name": "Update token (re-generate token)",
+          "id": "5390d5bd-a162-4354-ae8e-917aeffbceb9",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"your_email123@printway.io\", // Enter your email\r\n    \"password\": \"YourPassword@123\" // Enter your password\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/auth/token",
+            "description": "<p>You need to authenticate your account to be able to regenerate the access token.</p>\n<ul>\n<li>email: string (required)</li>\n<li>password: string (required - at least 12 characters, one capital letter, one number, and one special character)</li>\n</ul>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "auth",
+                "token"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "5390d5bd-a162-4354-ae8e-917aeffbceb9"
+        },
+        {
+          "name": "Destroy Access Token",
+          "id": "577f3371-b75d-4ba4-895e-c011bc3e73d3",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "url": "/auth/token",
+            "description": "<p>Remove the previously generated access token.</p>\n<p>Authorization by Bearer or Api key.</p>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "auth",
+                "token"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "577f3371-b75d-4ba4-895e-c011bc3e73d3"
+        },
+        {
+          "name": "Refresh token",
+          "id": "de3ad2e3-41fb-46ad-9422-91a4504531fd",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/auth/refresh-token?refresh_token=",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "auth",
+                "refresh-token"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [
+                {
+                  "key": "refresh_token",
+                  "value": ""
+                }
+              ],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "de3ad2e3-41fb-46ad-9422-91a4504531fd"
+        }
+      ],
+      "id": "32cdf510-1464-485b-94ca-889edef0a3c2",
+      "description": "<p>Generate, re-generate or destroy access token</p>\n",
+      "_postman_id": "32cdf510-1464-485b-94ca-889edef0a3c2",
+      "auth": {
+        "type": "bearer",
+        "bearer": {
+          "basicConfig": [
+            {
+              "key": "token",
+              "value": ""
+            }
+          ]
+        },
+        "isInherited": true,
+        "source": {
+          "_postman_id": "cc4a0e60-2d7e-42a0-b4d0-d610889f6561",
+          "id": "cc4a0e60-2d7e-42a0-b4d0-d610889f6561",
+          "name": "Printway APIs documentation v3.0",
+          "type": "collection"
+        }
+      }
+    },
+    {
+      "name": "Order",
+      "item": [
+        {
+          "name": "Calculate price for order",
+          "id": "28e6fce6-89f7-4c88-a035-cf2d837a43d9",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"discount_code\": [], // optional\r\n    \"shipping_country_code\": \"\", // string - required\r\n    \"shipping_province_code\": \"\", // string - required\r\n    \"shipping_service\": \"\", // string - optional\r\n    \"order_items\": [\r\n        {\r\n            \"made_in_location\": \"\", // string - optional\r\n            \"product_location\": \"\", // string - optional\r\n            \"variant_id\": \"\", // string - required without item_sku\r\n            \"item_sku\": \"\", // string - required without variant_id\r\n            \"quantity\": 1 // number - required, minimum 1\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/order/calculate-price",
+            "description": "<p>Calculate the product price and shipping price for the order.</p>\n<p>Authorization by Bearer or Api key.</p>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "order",
+                "calculate-price"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "28e6fce6-89f7-4c88-a035-cf2d837a43d9"
+        },
+        {
+          "name": "Create new order Api",
+          "id": "36e5c048-d8ad-409a-90c1-34b30fbd7384",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"order_id\": \"order_name\",\r\n    \"store_code\": \"\", // optional\r\n    \"tiktok_order_type\": \"seller\", // enum (seller, tiktok)\r\n    // \"tiktok_label_url\": \"https://printway.io\", // required with tiktok_order_type is tiktok\r\n    \"shipping_email\": \"order@printway.io\", // optional - RFC 5322\r\n    \"firstName\": \"firstName\", // required after 24/03/2025\r\n    \"lastName\": \"lastName\", // required after 24/03/2025\r\n    \"shipping_phone\": \"123456789\", // optional - E.164\r\n    \"shipping_address1\": \"581 Cherrywood Drive\",\r\n    \"shipping_address2\": \"Address 2\", // optional\r\n    \"shipping_city\": \"Sunnyvale\",\r\n    \"shipping_province\": \"California\",\r\n    \"shipping_province_code\": \"California\",\r\n    \"shipping_zip\": \"94087\",\r\n    \"shipping_country\": \"United States\",\r\n    \"shipping_country_code\": \"US\",\r\n    \"shipping_service\": \"US\", // optional\r\n    \"discount_code\": [], // optional\r\n    \"taxNumber\": \"\", //optional\r\n    \"order_items\": [\r\n        {\r\n            \"product_location\": \"PW\", // string - optional\r\n            \"made_in_location\": \"VN\", // string - optional\r\n            \"product_name\": \"Custom your product name\", // string optional\r\n            \"item_sku\": \"PW-2LMORM-3.54X3.54 INCHES-ONE SIDE\", // string - required without variant_id\r\n            \"variant_id\": \"\", // string - required without item_sku\r\n            \"quantity\": 1, // number\r\n            \"variant_note\": \"note for item\", // string optional\r\n            \"mockup_url\" : \"\", // url optional\r\n            \"artwork_front\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_back\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_right\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_left\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_hood\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_bothsides\" : \"\" ,// url optional (retrived from list of products api)\r\n            \"artwork_right_upper_sleeves\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_right_lower_sleeves\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_left_upper_sleeves\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_left_lower_sleeves\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_left_chest\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_right_chest\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_front_bottom_right\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_center_upper_back\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_across_chest\" : \"\", // url optional (retrived from list of products api)\r\n            \"artwork_across_back\" : \"\" // url optional (retrived from list of products api)\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/order/create-new-order",
+            "description": "<p>Create new order</p>\n<p>Authorization by Bearer or Api key</p>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "order",
+                "create-new-order"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "key": "",
+                  "value": null
+                }
+              ],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "36e5c048-d8ad-409a-90c1-34b30fbd7384"
+        },
+        {
+          "name": "Retrieve a list of orders",
+          "id": "a628d764-6890-4d4c-8f99-8c2daaa6dc6b",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"created_at_min\": \"2023-08-08 01:01:00\", // date string\r\n    \"created_at_max\": \"2023-08-15 23:59:59\", // date string\r\n    \"limit\": 10, // number (default: 10, maximum: 100)\r\n    \"page\": 1, // number\r\n    \"search\": \"\" // string (optional)\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/order/list",
+            "description": "<p>Retrive your order list by condition.</p>\n<p>Authorization by Bearer or Api key</p>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "order",
+                "list"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "a628d764-6890-4d4c-8f99-8c2daaa6dc6b"
+        },
+        {
+          "name": "Retrieve a specific order",
+          "id": "a2b7c462-62bf-47fa-aafa-a2bc5021d4c8",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"pw_order_id\": \"PW123456787\", // string - start with PW (required without order_name)\r\n    \"order_name\": \"Your_order_id\" // string - (required without pw_order_id)\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/order/detail",
+            "description": "<p>Retrieve your order detail.</p>\n<p>Authorization with Bearer or Api key.</p>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "order",
+                "detail"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "a2b7c462-62bf-47fa-aafa-a2bc5021d4c8"
+        },
+        {
+          "name": "Cancel an order",
+          "id": "d7c536b5-4e5d-4904-b769-7d442e8a7c85",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "pw_access_toke",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "// Required to have at least 1 field\r\n\r\n{\r\n    \"pw_order_id\": \"\", // string\r\n    \"order_name\": \"\" // string\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/order/cancel-order-api",
+            "description": "<p>Cancel an order has not been send to production</p>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "order",
+                "cancel-order-api"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "d7c536b5-4e5d-4904-b769-7d442e8a7c85"
+        },
+        {
+          "name": "Delete an order",
+          "id": "6d51688a-d6a3-4082-ac0c-1a3376208ec6",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "pw_access_toke",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "// Required to have at least 1 field\r\n\r\n{\r\n    \"pw_order_id\": \"\", // string\r\n    \"order_name\": \"\" // string\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/order/delete-order-api",
+            "description": "<p>Delete an order waiting and unpaid</p>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "order",
+                "delete-order-api"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "6d51688a-d6a3-4082-ac0c-1a3376208ec6"
+        },
+        {
+          "name": "Pay order",
+          "id": "1d3766c1-2658-482e-9f86-cc37556febcf",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "pw_access_toke",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"order_id\": \"PWN123456789\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/order/paid",
+            "description": "<p>Order payment with order id api</p>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "order",
+                "paid"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "1d3766c1-2658-482e-9f86-cc37556febcf"
+        },
+        {
+          "name": "Update artwork",
+          "id": "ad908dd7-e423-4c79-8b3e-45381a3baa0d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": ""
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"pw_order_id\": \"PWN5733566\", // string - required without order_name\n    \"item_id\": 1672313, // number\n    \"artworks\": [\n        {\n            \"area\": \"artwork_right\", // string - required\n            \"artwork_url\": \"artwork_url\" // url string - required\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/order/update-artwork-api",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "order",
+                "update-artwork-api"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "ad908dd7-e423-4c79-8b3e-45381a3baa0d"
+        },
+        {
+          "name": "Update address order",
+          "id": "039636f1-8fe2-4fd4-b758-1a68ad9fccdf",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": ""
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"pw_order_id\": \"PWN5733566\", // string - required without order_name\n    \"first_name\": \"first_name\", // string \n    \"last_name\": \"last_name\", // string\n    \"shipping_address1\": \"shipping_address1\", //string\n    \"shipping_address2\": \"\", // string\n    \"shipping_city\": \"Abbotsford\", // string\n    \"shipping_province\": \"Victoria\", // string\n    \"shipping_province_code\": \"VIC\", // string\n    \"shipping_zip\": \"433453\", // string\n    \"shipping_phone\": \"shipping_phone\", // string\n    \"shipping_email\": \"shipping_email\" // string\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/order/update-shipping-address-api",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "order",
+                "update-shipping-address-api"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "039636f1-8fe2-4fd4-b758-1a68ad9fccdf"
+        }
+      ],
+      "id": "017ca6e6-d802-4d86-84fa-86a8122f0243",
+      "description": "<p>Calculate price, create new order, retrieve list orders, retrieve detail order, cancel order, ...</p>\n<h3 id=\"note-we-will-use-sku-through-2023-and-then-will-switch-to-using-variant-id-to-create-orders\"><strong>Note: We will use sku through 2023, and then will switch to using variant id to create order(s).</strong></h3>\n",
+      "_postman_id": "017ca6e6-d802-4d86-84fa-86a8122f0243",
+      "auth": {
+        "type": "bearer",
+        "bearer": {
+          "basicConfig": [
+            {
+              "key": "token",
+              "value": ""
+            }
+          ]
+        },
+        "isInherited": true,
+        "source": {
+          "_postman_id": "cc4a0e60-2d7e-42a0-b4d0-d610889f6561",
+          "id": "cc4a0e60-2d7e-42a0-b4d0-d610889f6561",
+          "name": "Printway APIs documentation v3.0",
+          "type": "collection"
+        }
+      }
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Retrieve a list of products",
+          "id": "a414c612-81f0-4e90-ba74-690deaa439a8",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"limit\": 10, // number - optional, default 10, maximum: 100\r\n  \"page\": 1, // number - optional, default 1\r\n  \"search\": \"\" // string - optional\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/products/list",
+            "description": "<p>Retrieve out product list.</p>\n<p>Authorization with Bearer or Api key.</p>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "products",
+                "list"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "a414c612-81f0-4e90-ba74-690deaa439a8"
+        },
+        {
+          "name": "Retrieve a specific product",
+          "id": "45d727bd-27ad-4f2d-89f0-645baa6a50c8",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"code\": \"SPF\" // string - required\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/products/detail",
+            "description": "<p>Get one of our product information by product code.</p>\n<p>Authorization with Bearer or Api key.</p>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "products",
+                "detail"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "45d727bd-27ad-4f2d-89f0-645baa6a50c8"
+        },
+        {
+          "name": "Retrieve a list of SKUs",
+          "id": "6462bace-562a-422c-8ffa-4fdb8919fdd8",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "url": "/products/list-sku-catalogs",
+            "description": "<p>Retrieve our list of sku, variant, product.</p>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "products",
+                "list-sku-catalogs"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "6462bace-562a-422c-8ffa-4fdb8919fdd8"
+        },
+        {
+          "name": "Retrieve shipping methods by variant_id/sku",
+          "id": "6b78c2b3-8d53-4821-906a-a9c10507a6a0",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"variant_id\": [\"102430\", \"102412\"],\r\n    \"sku\": []\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/products/retrieved-shipping-methods",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "products",
+                "retrieved-shipping-methods"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "6b78c2b3-8d53-4821-906a-a9c10507a6a0"
+        }
+      ],
+      "id": "2cf44123-4009-4eed-8a32-92297482c402",
+      "_postman_id": "2cf44123-4009-4eed-8a32-92297482c402",
+      "description": "",
+      "auth": {
+        "type": "bearer",
+        "bearer": {
+          "basicConfig": [
+            {
+              "key": "token",
+              "value": ""
+            }
+          ]
+        },
+        "isInherited": true,
+        "source": {
+          "_postman_id": "cc4a0e60-2d7e-42a0-b4d0-d610889f6561",
+          "id": "cc4a0e60-2d7e-42a0-b4d0-d610889f6561",
+          "name": "Printway APIs documentation v3.0",
+          "type": "collection"
+        }
+      }
+    },
+    {
+      "name": "Webhook",
+      "item": [
+        {
+          "name": "Retrieve registered webhook",
+          "id": "3f6aca83-a958-45cb-9437-f6d84f857b8b",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "url": "/webhooks?type=tracking",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "webhooks"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [
+                {
+                  "description": {
+                    "content": "<p>tracking | order, default: tracking</p>\n",
+                    "type": "text/plain"
+                  },
+                  "key": "type",
+                  "value": "tracking"
+                }
+              ],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "3f6aca83-a958-45cb-9437-f6d84f857b8b"
+        },
+        {
+          "name": "Register webhook",
+          "id": "e7b54a71-9171-4e9e-8ed7-fa73b0150381",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "// Format of HTTP request header names and values\r\n\r\n// The name of the HTTP request header (access_key) you want to set or remove can only contain:\r\n// Alphanumeric characters: a-z, A-Z, and 0-9\r\n// The following special characters: - and _\r\n\r\n// The value of the HTTP request header (access_token) you want to set can only contain:\r\n// Alphanumeric characters: a-z, A-Z, and 0-9\r\n// The following special characters: _ :;.,\\/\"'?!(){}[]@<>=-+*#$&`|~^%\r\n\r\n{\r\n  \"access_key\": \"\", // string (required)\r\n  \"access_token\": \"\", // string (required)\r\n  \"endpoint\": \"\" // https://printway.io\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/webhooks?type=tracking",
+            "description": "<h4 id=\"format-of-http-request-header-names-and-values\">Format of HTTP request header names and values</h4>\n<p>The <strong>name</strong> of the HTTP request header (<strong>access_key</strong>) you want to set or remove can only contain:Alphanumeric characters: a-z, A-Z, and 0-9The following special characters: - and _</p>\n<p>The <strong>value</strong> of the HTTP request header (<strong>access_token</strong>) you want to set can only contain:Alphanumeric characters: a-z, A-Z, and 0-9The following special characters: _ :;.,\\/\"'?!(){}[]@&lt;&gt;=-+*#$&amp;`|~^%</p>\n<h4>Our request payload:</h4>\n\n<ul>\n<li>Type <strong>Order:</strong></li>\n</ul>\n<pre class=\"click-to-expand-wrapper is-snippet-wrapper\"><code class=\"language-json\">{\n    \"order_id\": \"\", // string\n    \"pw_order_id\": \"\", // string\n    \"order_items\": [{\n        \"item_sku\": \"\", // string\n        \"order_status\": \"\", // string\n        \"message_error\": \"\", // string\n    }]\n}\n\n</code></pre>\n<ul>\n<li>Type <strong>Tracking:</strong></li>\n</ul>\n<pre class=\"click-to-expand-wrapper is-snippet-wrapper\"><code class=\"language-json\">{\n    \"pw_order_id\": \"\", // string\n    \"order_id\": \"\", // string\n    \"tracking_number\": \"\", // string\n    \"carrier_name\": \"\", // string\n    \"carrier_code\": \"\", // string\n    \"tracking_url\": \"\" // string\n}\n\n</code></pre>\n",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "webhooks"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [
+                {
+                  "description": {
+                    "content": "<p>tracking | order, default: tracking</p>\n",
+                    "type": "text/plain"
+                  },
+                  "key": "type",
+                  "value": "tracking"
+                }
+              ],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "e7b54a71-9171-4e9e-8ed7-fa73b0150381"
+        },
+        {
+          "name": "Update webhook",
+          "id": "5469e024-8182-47c2-99f3-da514772e025",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"access_key\": \"\", // string (required)\r\n  \"access_token\": \"\", // string (required)\r\n  \"endpoint\": \"\" // https://printway.io\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/webhooks?type=tracking",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "webhooks"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [
+                {
+                  "description": {
+                    "content": "<p>tracking | order, default: tracking</p>\n",
+                    "type": "text/plain"
+                  },
+                  "key": "type",
+                  "value": "tracking"
+                }
+              ],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "5469e024-8182-47c2-99f3-da514772e025"
+        },
+        {
+          "name": "Delete webhook",
+          "id": "1ac61efd-8e49-4529-b6fe-5d75b4ef897f",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN",
+                "type": "text"
+              }
+            ],
+            "url": "/webhooks?type=order",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "webhooks"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [
+                {
+                  "description": {
+                    "content": "<p>tracking | order, default: tracking</p>\n",
+                    "type": "text/plain"
+                  },
+                  "key": "type",
+                  "value": "order"
+                }
+              ],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "1ac61efd-8e49-4529-b6fe-5d75b4ef897f"
+        }
+      ],
+      "id": "dc4dc855-cf5c-43fd-bcaf-ac2efa1b9312",
+      "_postman_id": "dc4dc855-cf5c-43fd-bcaf-ac2efa1b9312",
+      "description": "",
+      "auth": {
+        "type": "bearer",
+        "bearer": {
+          "basicConfig": [
+            {
+              "key": "token",
+              "value": ""
+            }
+          ]
+        },
+        "isInherited": true,
+        "source": {
+          "_postman_id": "cc4a0e60-2d7e-42a0-b4d0-d610889f6561",
+          "id": "cc4a0e60-2d7e-42a0-b4d0-d610889f6561",
+          "name": "Printway APIs documentation v3.0",
+          "type": "collection"
+        }
+      }
+    },
+    {
+      "name": "Transaction",
+      "item": [
+        {
+          "name": "Order list transaction",
+          "id": "d0145ab9-d37f-4eb4-8b52-85872337adb6",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "pw-access-token",
+                "value": "ACCESS_TOKEN"
+              }
+            ],
+            "url": "/transaction/order-list?created_at_min=2025-07-28T04:17:13.967&created_at_max=2026-07-29T04:17:13.967&limit=10&page=1&pw_order_id&order_name",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "transaction",
+                "order-list"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [
+                {
+                  "key": "created_at_min",
+                  "value": "2025-07-28T04:17:13.967"
+                },
+                {
+                  "key": "created_at_max",
+                  "value": "2026-07-29T04:17:13.967"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pw_order_id",
+                  "value": null
+                },
+                {
+                  "key": "order_name",
+                  "value": null
+                }
+              ],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "d0145ab9-d37f-4eb4-8b52-85872337adb6"
+        },
+        {
+          "name": "Transaction List",
+          "id": "b5d30f61-f386-4a0d-80d7-bf0eae9babc7",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/transaction/list?created_at_min=2025-07-28T04:17:13.967&created_at_max=2026-07-29T04:17:13.967&limit&page&invoice&paymentGateway&status&type",
+            "auth": {
+              "type": "bearer",
+              "bearer": {
+                "basicConfig": [
+                  {
+                    "key": "token",
+                    "value": "REDACTED"
+                  }
+                ]
+              }
+            },
+            "urlObject": {
+              "path": [
+                "transaction",
+                "list"
+              ],
+              "host": [
+                ""
+              ],
+              "query": [
+                {
+                  "key": "created_at_min",
+                  "value": "2025-07-28T04:17:13.967"
+                },
+                {
+                  "key": "created_at_max",
+                  "value": "2026-07-29T04:17:13.967"
+                },
+                {
+                  "key": "limit",
+                  "value": null
+                },
+                {
+                  "key": "page",
+                  "value": null
+                },
+                {
+                  "key": "invoice",
+                  "value": null
+                },
+                {
+                  "key": "paymentGateway",
+                  "value": null
+                },
+                {
+                  "key": "status",
+                  "value": null
+                },
+                {
+                  "key": "type",
+                  "value": null
+                }
+              ],
+              "variable": []
+            }
+          },
+          "response": [],
+          "_postman_id": "b5d30f61-f386-4a0d-80d7-bf0eae9babc7"
+        }
+      ],
+      "id": "f6b2def7-4950-42f2-b48d-5fe8a52da3dd",
+      "_postman_id": "f6b2def7-4950-42f2-b48d-5fe8a52da3dd",
+      "description": "",
+      "auth": {
+        "type": "bearer",
+        "bearer": {
+          "basicConfig": [
+            {
+              "key": "token",
+              "value": ""
+            }
+          ]
+        },
+        "isInherited": true,
+        "source": {
+          "_postman_id": "cc4a0e60-2d7e-42a0-b4d0-d610889f6561",
+          "id": "cc4a0e60-2d7e-42a0-b4d0-d610889f6561",
+          "name": "Printway APIs documentation v3.0",
+          "type": "collection"
+        }
+      }
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": {
+      "basicConfig": [
+        {
+          "key": "token",
+          "value": ""
+        }
+      ]
+    }
+  },
+  "event": [],
+  "variable": []
+}
