@@ -22,6 +22,7 @@ test('OAuth discovery, consent, PKCE, code replay, resource, refresh rotation, M
   const nonce=/name="nonce" value="([^"]+)"/.exec(html)![1];
   assert.equal((await post('/login',{nonce,password:'bad'})).status,403);
   const login=await post('/login',{nonce,password});assert.equal(login.status,302);const callback=new URL(login.headers.get('location')!);assert.equal(callback.searchParams.get('state'),'test-state');
+  assert.equal((await post('/login',{nonce,password})).status,403);
   const exchange={grant_type:'authorization_code',client_id:client.client_id,code:callback.searchParams.get('code')!,redirect_uri:base+'/callback',code_verifier:verifier,resource:base+'/mcp'};
   assert.equal((await post('/token',{...exchange,code_verifier:'wrong'.repeat(16)})).status,400);
   assert.equal((await post('/token',{...exchange,resource:'https://attacker.example/mcp'})).status,400);
@@ -32,6 +33,8 @@ test('OAuth discovery, consent, PKCE, code replay, resource, refresh rotation, M
   const refresh={grant_type:'refresh_token',client_id:client.client_id,refresh_token:tokens.refresh_token};
   assert.equal((await post('/token',{...refresh,scope:'printway:write'})).status,400);
   assert.equal((await post('/token',refresh)).status,200);assert.equal((await post('/token',refresh)).status,400);
+  assert.equal((await post('/revoke',{client_id:client.client_id,token:tokens.access_token})).status,200);
+  const revoked=await fetch(base+'/mcp',{method:'POST',headers:{Authorization:'Bearer '+tokens.access_token,'Content-Type':'application/json'},body:'{}'});assert.equal(revoked.status,401);
  }finally{listener.closeAllConnections();await new Promise<void>(r=>listener.close(()=>r()));}
 });
 test('MCP tool invocation enforces read/write scopes and can return upstream data',async()=>{

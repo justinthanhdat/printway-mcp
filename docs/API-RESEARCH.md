@@ -293,7 +293,7 @@ Examples below are documentation templates, not runnable account fixtures. JSON 
 ```jsonc
 {
     "pw_order_id": "PWN5733566", // string - required without order_name
-    "first_name": "first_name", // string 
+    "first_name": "first_name", // string
     "last_name": "last_name", // string
     "shipping_address1": "shipping_address1", //string
     "shipping_address2": "", // string
@@ -442,4 +442,3 @@ Examples below are documentation templates, not runnable account fixtures. JSON 
 ### Transaction List
 
 `GET /transaction/list?created_at_min=2025-07-28T04:17:13.967&created_at_max=2026-07-29T04:17:13.967&limit&page&invoice&paymentGateway&status&type`
-

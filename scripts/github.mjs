@@ -11,5 +11,7 @@ const name='printway-mcp';const repoUrl='https://api.github.com/repos/'+user.log
 let response=await fetch(repoUrl,{headers});
 if(response.status===404){response=await fetch('https://api.github.com/user/repos',{method:'POST',headers,body:JSON.stringify({name,private:true,description:'Printway API v3 MCP server with OAuth and Streamable HTTP',auto_init:false})});}
 if(!response.ok){console.error('GitHub repository HTTP '+response.status);process.exit(1);}
-const repo=await response.json();mkdirSync('.local',{recursive:true});writeFileSync('.local/github.json',JSON.stringify({url:repo.html_url,clone:repo.clone_url,login:user.login,id:user.id,private:repo.private},null,2));
+let repo=await response.json();
+if(process.argv.includes('--public')){const update=await fetch(repoUrl,{method:'PATCH',headers,body:JSON.stringify({private:false})});if(!update.ok){console.error('GitHub visibility update HTTP '+update.status);process.exit(1);}repo=await update.json();}
+mkdirSync('.local',{recursive:true});writeFileSync('.local/github.json',JSON.stringify({url:repo.html_url,clone:repo.clone_url,login:user.login,id:user.id,private:repo.private},null,2));
 console.log('Repository: '+repo.html_url+'; private='+repo.private);

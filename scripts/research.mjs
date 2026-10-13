@@ -10,4 +10,4 @@ let report=`# Printway API research\n\nResearched: 2026-10-13. Scope: every oper
 for(const e of entries)report+=`| ${e.group} | ${e.name} | ${e.method} | ${e.path} |\n`;
 report+='\n## Request reference\n\nExamples below are documentation templates, not runnable account fixtures. JSON comments are retained from the source. Webhook receivers must verify the configured access_key/access_token header; this MCP manages registrations but does not ingest events.\n';
 for(const e of entries){report+=`\n### ${e.name}\n\n\`${e.method} ${e.request.url}\`\n\n`;if(e.request.description)report+=e.request.description+'\n';if(e.request.body?.raw)report+='\n```jsonc\n'+e.request.body.raw+'\n```\n';}
-writeFileSync('docs/API-RESEARCH.md',report);
+writeFileSync('docs/API-RESEARCH.md',report.split('\n').map(line=>line.trimEnd()).join('\n').trimEnd()+'\n');
