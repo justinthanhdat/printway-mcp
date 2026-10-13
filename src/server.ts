@@ -45,6 +45,8 @@ export function createApp(config:{url:string;password:string;token?:string;refre
  app.get('/',(_req,res)=>res.type('text').send('Printway MCP v1.0.0\nMCP: /mcp\nHealth: /healthz\nOAuth: /.well-known/oauth-authorization-server\nConnect using OAuth; enter MCP login password and Printway v3 token.'));
  app.use(mcpAuthRouter({provider,issuerUrl:base,resourceServerUrl:new URL('/mcp',base),resourceName:'Printway MCP',scopesSupported:['printway:read','printway:write',...(config.admin?['printway:admin']:[])]}));
  app.post('/login',provider.login);
+ app.get('/login',provider.loginHelp);
+ app.get('/login/restart',provider.restartLogin);
  app.use('/mcp',requireBearerAuth({verifier:provider,expectedResource:new URL('/mcp',base),resourceMetadataUrl:new URL('/.well-known/oauth-protected-resource/mcp',base).href}));
  app.post('/mcp',async (req,res) => {
   const credentials=req.auth!.extra?.printwayCredentials as PrintwayCredentials;

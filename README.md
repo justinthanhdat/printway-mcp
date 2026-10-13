@@ -33,6 +33,8 @@ Rotated credentials are shared across OAuth grants in the running process. The l
 
 Default scopes: `printway:read` and `printway:write`. A client may request read access only. The server enforces scopes for each tool and provides read/write/destructive annotations. Payment requires explicit user intent in the client workflow; the API operation itself is a real financial action.
 
+Login forms remain valid for 15 minutes. An incorrect MCP password returns the form with a retry message. Encrypted, issuer-bound login state recovers an in-progress form after a server restart. Expired forms offer a restart link for another 15 minutes, then require reconnecting from ChatGPT. This recovery does not persist issued OAuth tokens. Only the value of `MCP_LOGIN_PASSWORD` from `.env` belongs in the MCP password field.
+
 ## Token administration
 
 19 business tools are enabled by default. To expose the additional 4 auth tools, set `ENABLE_AUTH_ADMIN=true`, configure `PRINTWAY_EMAIL`, `PRINTWAY_PASSWORD`, and optional `PRINTWAY_REFRESH_TOKEN`, then reconnect with `printway:admin` scope. Auth tool inputs never ask for passwords. Returned token fields are redacted. Generated tokens update the active process client; token changes are not persisted back to Render settings. Revoking/regenerating may invalidate other integrations, so use only on explicit request. This mode is intended for a single trusted operator.
