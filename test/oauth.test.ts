@@ -7,7 +7,7 @@ import {Client} from '@modelcontextprotocol/sdk/client/index.js';
 import {InMemoryTransport} from '@modelcontextprotocol/sdk/inMemory.js';
 const password='test-password-with-32-characters';
 test('OAuth discovery, consent, PKCE, code replay, resource, refresh rotation, MCP discovery',async()=>{
- const {app}=createApp({url:'http://localhost:3129',password,token:'private-printway-token'});
+ const {app,provider}=createApp({url:'http://localhost:3129',password,token:'private-printway-token',refreshToken:'private-refresh-token'});
  const listener=app.listen(3129);await new Promise<void>(r=>listener.once('listening',r));
  const base='http://localhost:3129';
  const post=(path:string,body:Record<string,string>)=>fetch(base+path,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(body),redirect:'manual'});
@@ -18,7 +18,7 @@ test('OAuth discovery, consent, PKCE, code replay, resource, refresh rotation, M
   const reg=await fetch(base+'/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({client_name:'Test <script>',redirect_uris:[base+'/callback'],token_endpoint_auth_method:'none',grant_types:['authorization_code','refresh_token'],response_types:['code']})});assert.equal(reg.status,201);const client=await reg.json();
   const verifier='a'.repeat(64);const challenge=createHash('sha256').update(verifier).digest('base64url');
   const auth=await fetch(base+'/authorize?'+new URLSearchParams({client_id:client.client_id,redirect_uri:base+'/callback',response_type:'code',scope:'printway:read',code_challenge:challenge,code_challenge_method:'S256',state:'test-state',resource:base+'/mcp'}));
-  const html=await auth.text();assert.equal(auth.status,200);assert.ok(!html.includes('<script>'));assert.ok(!html.includes('private-printway-token'));
+  const html=await auth.text();assert.equal(auth.status,200);assert.ok(!html.includes('<script>'));assert.ok(!html.includes('private-printway-token'));assert.ok(!html.includes('private-refresh-token'));
   const nonce=/name="nonce" value="([^"]+)"/.exec(html)![1];
   assert.equal((await post('/login',{nonce,password:'bad'})).status,403);
   const login=await post('/login',{nonce,password});assert.equal(login.status,302);const callback=new URL(login.headers.get('location')!);assert.equal(callback.searchParams.get('state'),'test-state');
@@ -32,7 +32,10 @@ test('OAuth discovery, consent, PKCE, code replay, resource, refresh rotation, M
   const list=await fetch(base+'/mcp',{method:'POST',headers:{Authorization:'Bearer '+tokens.access_token,'Content-Type':'application/json',Accept:'application/json, text/event-stream'},body:JSON.stringify({jsonrpc:'2.0',id:2,method:'tools/list',params:{}})});const tools=(await list.json()).result.tools;assert.equal(tools.length,19);assert.equal(tools.find((t:any)=>t.name==='printway_pay_order').annotations.destructiveHint,true);
   const refresh={grant_type:'refresh_token',client_id:client.client_id,refresh_token:tokens.refresh_token};
   assert.equal((await post('/token',{...refresh,scope:'printway:write'})).status,400);
-  assert.equal((await post('/token',refresh)).status,200);assert.equal((await post('/token',refresh)).status,400);
+  const refreshedResponse=await post('/token',refresh);assert.equal(refreshedResponse.status,200);const refreshedTokens=await refreshedResponse.json();assert.equal((await post('/token',refresh)).status,400);
+  const originalInfo=await provider.verifyAccessToken(tokens.access_token);const refreshedInfo=await provider.verifyAccessToken(refreshedTokens.access_token);
+  assert.equal(originalInfo.extra?.printwayCredentials,refreshedInfo.extra?.printwayCredentials);
+  assert.equal((refreshedInfo.extra?.printwayCredentials as any).refreshToken,'private-refresh-token');
   assert.equal((await post('/revoke',{client_id:client.client_id,token:tokens.access_token})).status,200);
   const revoked=await fetch(base+'/mcp',{method:'POST',headers:{Authorization:'Bearer '+tokens.access_token,'Content-Type':'application/json'},body:'{}'});assert.equal(revoked.status,401);
  }finally{listener.closeAllConnections();await new Promise<void>(r=>listener.close(()=>r()));}

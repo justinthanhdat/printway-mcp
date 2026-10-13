@@ -27,11 +27,17 @@ Create a custom remote MCP connection in your ChatGPT account using `https://YOU
 
 In the browser consent screen, enter `MCP_LOGIN_PASSWORD` and, if the server has no configured upstream token, your Printway API v3 token. Obtain the Printway token from **Store → Connect APIs → Generate Token**. Do not paste credentials into chat. OAuth tokens issued to ChatGPT are distinct from Printway tokens. Your ChatGPT plan/workspace must allow custom MCP connections; the server alone does not install the connection in your account.
 
+Configure both `PRINTWAY_ACCESS_TOKEN` and `PRINTWAY_REFRESH_TOKEN` in `.env` and Render environment variables, or enter both in the browser consent form when upstream credentials are not server-configured. On an upstream 401, the client calls `GET /auth/refresh-token?refresh_token=...` once. It accepts credentials in `result`, `data`, or the top-level object, retains a rotated refresh token, and retries a read once. Concurrent requests share a single refresh. Writes are not replayed: the caller receives an instruction to verify state and retry explicitly. A failed refresh requires reconnecting with valid credentials. Printway credentials and MCP OAuth credentials are separate.
+
+Rotated credentials are shared across OAuth grants in the running process. The local live-test script saves changed credentials back to `.env`. Render environment variables are not rewritten automatically; after upstream rotation, restart recovery requires updating the stored pair or reconnecting with current credentials. A durable encrypted credential store is required for rotation that survives redeploys.
+
 Default scopes: `printway:read` and `printway:write`. A client may request read access only. The server enforces scopes for each tool and provides read/write/destructive annotations. Payment requires explicit user intent in the client workflow; the API operation itself is a real financial action.
 
 ## Token administration
 
 19 business tools are enabled by default. To expose the additional 4 auth tools, set `ENABLE_AUTH_ADMIN=true`, configure `PRINTWAY_EMAIL`, `PRINTWAY_PASSWORD`, and optional `PRINTWAY_REFRESH_TOKEN`, then reconnect with `printway:admin` scope. Auth tool inputs never ask for passwords. Returned token fields are redacted. Generated tokens update the active process client; token changes are not persisted back to Render settings. Revoking/regenerating may invalidate other integrations, so use only on explicit request. This mode is intended for a single trusted operator.
+
+Automatic 401 recovery does not need admin tools. The manual refresh tool uses the connection's current refresh token. Destroying an upstream token also clears the in-memory refresh token.
 
 ## Deployment
 
@@ -41,6 +47,7 @@ Default scopes: `printway:read` and `printway:write`. A client may request read 
 
 - `npm run check`: strict TypeScript checking.
 - `npm test`: coverage vs published collection, wire-level routing for all endpoints, GET body preservation, local input validation, upstream failure/timeout behavior, OAuth discovery/PKCE/resource binding/replay rejection/refresh rotation, MCP protocol/tool discovery, scope enforcement, redaction.
+- Live validation on 2026-10-13 passed for product listing, order listing, tracking webhook retrieval, and transaction listing. Order and transaction list endpoints require both `created_at_min` and `created_at_max`; live responses confirmed HTTP 400 without the range. Financial/write APIs and real upstream token rotation were not invoked.
 - `npm run test:live`: four read-only upstream smoke calls using `.env`. No creation, payment, cancellation, deletion, token rotation, or webhook write is performed. Exit 2 means missing credentials, not successful verification.
 - `node scripts/remote-smoke.mjs`: HTTPS deployment, OAuth login/PKCE and MCP discovery verification with a placeholder upstream token. This makes no Printway API call and writes a local report under `.local/`.
 

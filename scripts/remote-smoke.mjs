@@ -23,5 +23,9 @@ const rpc=async(method,params,id)=>{const response=await request('/mcp',{method:
 const initialized=await rpc('initialize',{protocolVersion:'2025-03-26',capabilities:{},clientInfo:{name:'remote-smoke',version:'1'}},1);check('MCP initialize',initialized.result?.serverInfo?.name==='printway-mcp');
 const listing=await rpc('tools/list',{},2);check('MCP tool discovery',listing.result?.tools?.length===19);
 const denied=await rpc('tools/call',{name:'printway_pay_order',arguments:{order_id:'TEST-NOT-A-REAL-ORDER'}},3);check('read-only token cannot pay',denied.result?.isError===true);
+if(process.argv.includes('--live')){
+ const products=await rpc('tools/call',{name:'printway_list_products',arguments:{limit:1,page:1}},4);check('live Printway catalog through remote MCP',!products.error && products.result?.isError!==true);
+ const orders=await rpc('tools/call',{name:'printway_list_orders',arguments:{limit:1,page:1,created_at_min:'2026-09-13 00:00:00',created_at_max:'2026-10-13 23:59:59'}},5);check('live Printway orders through remote MCP',!orders.error && orders.result?.isError!==true);
+}
 await post('/revoke',{client_id:client.client_id,token:tokens.access_token});await post('/revoke',{client_id:client.client_id,token:tokens.refresh_token});
-mkdirSync('.local',{recursive:true});writeFileSync('.local/remote-smoke.json',JSON.stringify({timestamp:new Date().toISOString(),base,health,checks,livePrintwayCalls:false},null,2));
+mkdirSync('.local',{recursive:true});writeFileSync('.local/remote-smoke.json',JSON.stringify({timestamp:new Date().toISOString(),base,health,checks,livePrintwayCalls:process.argv.includes('--live')},null,2));

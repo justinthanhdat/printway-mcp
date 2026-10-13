@@ -3,7 +3,7 @@ const str = z.string().min(1);
 const text = z.string();
 const url = z.string().url().refine(v => new URL(v).protocol === 'https:', 'HTTPS URL required');
 const page = { limit: z.number().int().min(1).max(100).optional(), page: z.number().int().min(1).optional() };
-const dates = { created_at_min: str.optional(), created_at_max: str.optional() };
+const dates = { created_at_min: str.describe('Required start datetime, for example 2026-10-01 00:00:00'), created_at_max: str.describe('Required end datetime, for example 2026-10-13 23:59:59') };
 const ids = z.object({ pw_order_id: str.optional(), order_name: str.optional() }).strict().refine(v => !!(v.pw_order_id || v.order_name), 'pw_order_id or order_name required');
 const item = z.object({ variant_id: str.optional(), item_sku: str.optional(), quantity: z.number().int().min(1), made_in_location: text.optional(), product_location: text.optional(), product_name: text.optional(), variant_note: text.optional(), mockup_url: url.optional(), ...Object.fromEntries(['front','back','right','left','hood','bothsides','right_upper_sleeves','right_lower_sleeves','left_upper_sleeves','left_lower_sleeves','left_chest','right_chest','front_bottom_right','center_upper_back','across_chest','across_back'].map(k => ['artwork_'+k,url.optional()])) }).strict().refine(v => !!(v.variant_id || v.item_sku), 'variant_id or item_sku required');
 const shipping = { shipping_address1: str, shipping_address2: text.optional(), shipping_city: str, shipping_province: str, shipping_province_code: str, shipping_zip: str, shipping_phone: text.optional(), shipping_email: z.string().email().optional() };
