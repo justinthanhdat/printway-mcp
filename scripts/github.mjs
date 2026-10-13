@@ -1,7 +1,7 @@
 import {spawnSync} from 'node:child_process';
 import {mkdirSync,writeFileSync} from 'node:fs';
 const targetUser=process.env.GITHUB_USERNAME??'justinthanhdat';
-const credential=spawnSync('git',['credential','fill'],{input:'protocol=https\nhost=github.com\nusername='+targetUser+'\n\n',encoding:'utf8',env:{...process.env,GIT_TERMINAL_PROMPT:'0',GCM_INTERACTIVE:'never'}});
+const credential=spawnSync('git',['credential-manager','get'],{input:'protocol=https\nhost=github.com\nusername='+targetUser+'\n\n',encoding:'utf8',env:{...process.env,GIT_TERMINAL_PROMPT:'0',GCM_INTERACTIVE:'never'}});
 if(credential.status!==0){console.error('GitHub credential unavailable; sign in to Git Credential Manager.');process.exit(1);}
 const token=credential.stdout.split('\n').find(v=>v.startsWith('password='))?.slice(9).trim();
 if(!token){console.error('GitHub credential unavailable');process.exit(1);}
