@@ -23,7 +23,7 @@ test('Exact HTTP method, GET JSON body, query encoding, auth and no token leak',
 });
 test('Invalid input fails locally before any request',()=>{
  const schema=(n:string)=>operations.find(o=>o.name==='printway_'+n)!.schema;
- for(const [name,input] of [['get_order',{}],['list_products',{limit:101}],['get_shipping_methods',{}],['pay_order',{}],['create_order',{order_id:'x'}],['update_artwork',{pw_order_id:'PW1',item_id:1,artworks:[{area:'front',artwork_url:'http://example.com'}]}]] as const)assert.equal(schema(name).safeParse(input).success,false);
+ for(const [name,input] of [['get_order',{}],['list_products',{limit:101}],['list_orders',{limit:1}],['list_transactions',{limit:1}],['get_shipping_methods',{}],['pay_order',{}],['create_order',{order_id:'x'}],['update_artwork',{pw_order_id:'PW1',item_id:1,artworks:[{area:'front',artwork_url:'http://example.com'}]}]] as const)assert.equal(schema(name).safeParse(input).success,false);
  assert.equal(schema('list_products').safeParse({limit:100,page:1}).success,true);
  assert.equal(schema('get_order').safeParse({order_name:'my order'}).success,true);
 });
